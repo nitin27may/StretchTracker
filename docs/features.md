@@ -31,16 +31,49 @@ Customize every aspect of the app through the settings panel:
 - **Startup options**: Configure the app to launch when your system starts
 - **Notification settings**: Control how and when you receive reminders
 
-## Stretch Detection
+## AI-Powered Stretch Detection
+
+{: .note-title }
+> Computer Vision & Machine Learning
+>
+> Our stretch detection system combines two powerful technologies to ensure accurate verification of your stretching movements:
+> - **OpenCvSharp4**: For real-time motion analysis
+> - **TensorFlow.NET**: For pose estimation and movement classification
 
 ![Stretch Detection](screenshots/stretchdetectionandprogress.png)
 
+<div class="code-example" markdown="1">
+{: .highlight }
+> **Technology Highlight**
+>
+> The app's intelligent detection system can distinguish between genuine stretching movements and regular activity, ensuring you get credit only for actual stretches.
+</div>
+
 The stretch detection window uses your webcam to:
 
-- **Verify stretching movement**: Ensure you're actually stretching when prompted
+- **Verify stretching movement**: Uses computer vision algorithms to ensure you're actually stretching when prompted
 - **Track progress**: Show how many stretches you've completed in the current session
 - **Provide real-time feedback**: Display motion detection data and stretching confirmation
 - **Auto-calibration**: Automatically adjust to your environment and lighting conditions
+
+### Advanced Detection Features
+
+Our AI-powered detection system includes:
+
+1. **Intelligent Motion Analysis**
+   - Distinguishes between stretching and other movements
+   - Filters out background motion and noise
+   - Adapts to your unique movement patterns
+
+2. **Pose Recognition** (Machine Learning)
+   - Identifies specific body positions and joint angles
+   - Validates stretches against reference models
+   - Provides guidance on proper stretching form
+
+3. **Adaptive Learning**
+   - Improves detection accuracy over time
+   - Adjusts to your specific stretching style
+   - Optimizes for your workspace environment
 
 ## Statistics & Progress
 

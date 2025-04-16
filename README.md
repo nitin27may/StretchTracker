@@ -6,6 +6,7 @@ A desktop application that reminds users to take regular stretching breaks and h
 
 Stretch Reminder App is a WPF (.NET) application that helps users prevent physical strain by providing timely reminders to stretch. The app uses computer vision (OpenCV) and machine learning (TensorFlow) to detect stretching movements through the user's webcam, tracks progress, and maintains statistics about stretching habits over time.
 
+![App Launch](docs/screenshots/main-window.png)
 ![Stretch Detection](docs/screenshots/stretchdetectionandprogress.png)
 
 ## Features
@@ -18,9 +19,31 @@ Stretch Reminder App is a WPF (.NET) application that helps users prevent physic
 - **Minimal Distraction**: Simple notifications that don't interrupt your workflow
 - **System Tray Integration**: Runs in the background with system tray access
 
-## TensorFlow Integration
+## Movement Detection Implementation
 
-The app leverages TensorFlow.NET to provide sophisticated pose detection capabilities:
+### OpenCV-Based Motion Detection
+
+The core movement detection system uses **OpenCvSharp4**, a .NET wrapper for OpenCV, to perform frame-by-frame analysis:
+
+```csharp
+// Motion detection algorithm overview
+1. Capture video frames from webcam using VideoCapture
+2. Convert frames to grayscale with Cv2.CvtColor
+3. Apply Gaussian blur (Cv2.GaussianBlur) to reduce noise
+4. Calculate frame differences between current and previous frames (Cv2.Absdiff)
+5. Apply binary threshold to isolate significant movements (Cv2.Threshold)
+6. Apply morphological operations to filter out minor movements:
+   - Erosion to remove small noise (Cv2.Erode)
+   - Dilation to enhance true motion areas (Cv2.Dilate)
+7. Quantify movement by summing white pixels (Cv2.Sum)
+8. Compare against calibrated threshold to determine if stretching
+```
+
+The system includes an automatic calibration phase that adjusts detection thresholds to the user's environment, making it work well in various lighting conditions and with different webcam qualities.
+
+### TensorFlow Integration
+
+The app leverages **TensorFlow.NET** to provide sophisticated pose detection capabilities:
 
 - **Human Pose Estimation**: Identifies key body points and their positions using machine learning
 - **Specific Stretch Recognition**: Works to identify and validate different types of stretching moves
@@ -54,6 +77,19 @@ For complete documentation, please visit our [GitHub Pages site](https://nitint2
 - [Features](https://nitint27may.github.io/StretchReminderApp/features)
 - [Technical Details](https://nitint27may.github.io/StretchReminderApp/technical-details)
 - [Developer Guide](https://nitint27may.github.io/StretchReminderApp/developers)
+
+### GitHub Pages Deployment
+
+Documentation is automatically deployed to GitHub Pages using GitHub Actions whenever changes are made to the `docs/` directory. The workflow:
+
+1. Builds the Jekyll site using the just-the-docs theme
+2. Deploys the built site to GitHub Pages
+3. Makes the documentation available at https://nitint27may.github.io/StretchReminderApp/
+
+To modify the documentation:
+1. Update files in the `docs/` directory
+2. Commit and push changes to the main branch
+3. GitHub Actions will automatically build and deploy the updated documentation
 
 ## Technology Stack
 
