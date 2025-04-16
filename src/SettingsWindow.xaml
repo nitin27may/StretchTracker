@@ -148,7 +148,7 @@
 
                     <Slider x:Name="IntervalSlider" 
                             Style="{StaticResource CustomSlider}"
-                            Minimum="15" Maximum="240" Value="120"
+                            Minimum="5" Maximum="240" Value="120"
                             ValueChanged="IntervalSlider_ValueChanged"/>
 
                     <TextBlock x:Name="IntervalTextBlock" 
@@ -232,8 +232,8 @@
                     <StackPanel>
                         <!-- Debug logging -->
                         <CheckBox x:Name="DebugLoggingCheckbox" 
-                                  Content="Enable debug logging" 
-                                  Style="{StaticResource CustomCheckBox}"/>
+                          Content="Enable 5-minute reminder mode" 
+                          Style="{StaticResource CustomCheckBox}"/>
 
                         <!-- Model path -->
                         <TextBlock Text="Model path" 

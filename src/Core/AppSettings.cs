@@ -111,10 +111,10 @@ namespace StretchReminderApp.Core
             NotificationIntervalMinutes = (IntervalDays * 24 * 60) + (IntervalHours * 60) + IntervalMinutes;
 
             // Ensure a minimum interval of 1 minute
-            if (NotificationIntervalMinutes < 1)
+            if (NotificationIntervalMinutes < 5)
             {
-                NotificationIntervalMinutes = 1;
-                IntervalMinutes = 1;
+                NotificationIntervalMinutes = 5;
+                IntervalMinutes = 5;
             }
         }
 

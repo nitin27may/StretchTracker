@@ -35,7 +35,7 @@ namespace StretchReminderApp.UI
                 // Developer options
                 if (DebugLoggingCheckbox != null) // Check if the control exists
                 {
-                    // DebugLoggingCheckbox.IsChecked = _settings.EnableDebugLogging;
+                    DebugLoggingCheckbox.IsChecked = _settings.EnableDevMode;
                 }
 
                 ModelPathTextBox.Text = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Models", "stretch_detection_model.pb");
@@ -194,6 +194,10 @@ namespace StretchReminderApp.UI
             _settings.PoseDetectionThreshold = (float)ThresholdSlider.Value;
             _settings.ShowMotivationalMessages = MotivationCheckbox.IsChecked ?? true;
 
+            if (DebugLoggingCheckbox != null)
+            {
+                _settings.EnableDevMode = DebugLoggingCheckbox.IsChecked ?? false;
+            }
             // Update components based on total minutes
             _settings.UpdateComponentsFromTotal();
 

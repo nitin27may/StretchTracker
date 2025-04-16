@@ -19,6 +19,9 @@ namespace StretchReminderApp
             InitializeComponent();
             Loaded += MainWindow_Loaded;
 
+            // Add handler for the closing event
+            Closing += MainWindow_Closing;
+
             // Set a random tip text
             Random random = new Random();
             TipText.Text = _tipMessages[random.Next(_tipMessages.Length)];
@@ -63,7 +66,33 @@ namespace StretchReminderApp
                 Console.WriteLine($"Error loading streak data: {ex.Message}");
             }
         }
+        // Handle the window closing event to minimize to tray instead
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // If we're not shutting down the application
+            if (Application.Current.ShutdownMode != ShutdownMode.OnExplicitShutdown)
+            {
+                e.Cancel = true; // Prevent the window from closing
+                this.Hide(); // Hide the window instead
 
+                // Optional: Show a tooltip notification to let the user know the app is still running
+                try
+                {
+                    var notifyIcon = (Hardcodet.Wpf.TaskbarNotification.TaskbarIcon)Application.Current.Resources["NotifyIcon"];
+                    if (notifyIcon != null)
+                    {
+                        notifyIcon.ShowBalloonTip(
+                            "Stretch Reminder",
+                            "The app is still running in the system tray. You'll receive stretch reminders as scheduled.",
+                            Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error showing balloon tip: {ex.Message}");
+                }
+            }
+        }
         private void StretchNowButton_Click(object sender, RoutedEventArgs e)
         {
             try

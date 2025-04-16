@@ -1,5 +1,7 @@
-﻿using StretchReminderApp.Core;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using StretchReminderApp.Core;
 using StretchReminderApp.UI;
+using System.Drawing;
 using System.Windows;
 
 namespace StretchReminderApp
@@ -8,6 +10,7 @@ namespace StretchReminderApp
     {
         public NotificationManager NotificationManager { get; private set; }
         public DatabaseManager DatabaseManager { get; private set; }
+        private TaskbarIcon notifyIcon;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -20,6 +23,27 @@ namespace StretchReminderApp
 
                 // Setup notification system
                 NotificationManager = new NotificationManager(DatabaseManager);
+
+                // Get and initialize the taskbar icon from resources
+                notifyIcon = (TaskbarIcon)Resources["NotifyIcon"];
+                if (notifyIcon != null)
+                {
+                    // Set icon programmatically
+                    try
+                    {
+                        // Try to use standard application icon
+                        notifyIcon.Icon = Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    }
+                    catch
+                    {
+                        // Fallback to system information icon if app icon can't be loaded
+                        notifyIcon.Icon = SystemIcons.Information;
+                    }
+
+                    // Set event handlers
+                    notifyIcon.TrayBalloonTipClicked += (s, args) => ShowMainWindow();
+                    notifyIcon.TrayMouseDoubleClick += (s, args) => ShowMainWindow();
+                }
 
                 // Create a main window instead of using system tray icon
                 MainWindow = new MainWindow();
@@ -36,7 +60,33 @@ namespace StretchReminderApp
             }
         }
 
+        // Common method to show or restore the main window
+        private void ShowMainWindow()
+        {
+            if (MainWindow == null)
+            {
+                // Create a new main window if it doesn't exist
+                MainWindow = new MainWindow();
+            }
+
+            // Show and activate the window
+            if (!MainWindow.IsVisible)
+                MainWindow.Show();
+
+            if (MainWindow.WindowState == WindowState.Minimized)
+                MainWindow.WindowState = WindowState.Normal;
+
+            MainWindow.Activate();
+            MainWindow.Focus();
+        }
+
         // Menu click handlers for the taskbar context menu
+        private void ShowMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Show the main window
+            ShowMainWindow();
+        }
+
         private void StatsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             // Open stats window
@@ -63,6 +113,9 @@ namespace StretchReminderApp
             {
                 // Clean up notification system
                 NotificationManager?.CleanUp();
+
+                // Clean up the TaskbarIcon
+                notifyIcon?.Dispose();
             }
             catch
             {

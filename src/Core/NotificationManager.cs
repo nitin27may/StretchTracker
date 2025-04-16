@@ -13,7 +13,7 @@ namespace StretchReminderApp.Core
         private readonly AppSettings _settings;
         private Window _notificationWindow;
         private readonly bool _testMode = true;
-        private readonly int _testIntervalMinutes = 2; // 2-minute test interval
+        private readonly int _testIntervalMinutes = 5; // 2-minute test interval
 
         public NotificationManager(DatabaseManager dbManager)
         {
@@ -25,7 +25,7 @@ namespace StretchReminderApp.Core
         {
             try
             {
-                // Use DispatcherTimer for WPF
+                // Use DispatcherTimer for WPFUpdateTimerInterval
                 _notificationTimer = new DispatcherTimer();
 
                 // Set interval based on settings (including dev mode if enabled)
@@ -62,6 +62,9 @@ namespace StretchReminderApp.Core
         {
             // Get effective interval (considering dev mode)
             int intervalMinutes = _settings.GetEffectiveIntervalMinutes();
+
+            // Ensure at least 5-minute interval
+            intervalMinutes = Math.Max(5, intervalMinutes);
 
             // Set the timer interval
             _notificationTimer.Interval = TimeSpan.FromMinutes(intervalMinutes);
