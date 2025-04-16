@@ -13,6 +13,10 @@ namespace StretchReminderApp.Core
         private readonly AppSettings _settings;
         private Window _notificationWindow;
 
+        // For testing - override normal settings temporarily
+        private readonly bool _testMode = true;
+        private readonly int _testIntervalMinutes = 2; // 2-minute test interval
+
         public NotificationManager(DatabaseManager dbManager)
         {
             _dbManager = dbManager;
@@ -23,17 +27,17 @@ namespace StretchReminderApp.Core
         {
             try
             {
-                // Use DispatcherTimer instead of System.Timers.Timer for WPF
-                // This runs on the UI thread and avoids cross-thread issues
+                // Use DispatcherTimer for WPF
                 _notificationTimer = new DispatcherTimer
                 {
-                    Interval = TimeSpan.FromMinutes(_settings.NotificationIntervalMinutes)
+                    // Use test interval or settings value
+                    Interval = TimeSpan.FromMinutes(_testMode ? _testIntervalMinutes : _settings.NotificationIntervalMinutes)
                 };
 
                 _notificationTimer.Tick += (s, e) => ShowNotification();
                 _notificationTimer.Start();
 
-                // Show first notification after a short delay
+                // Show first notification after a short delay (10 seconds)
                 DispatcherTimer startupTimer = new DispatcherTimer
                 {
                     Interval = TimeSpan.FromSeconds(10)
@@ -130,21 +134,31 @@ namespace StretchReminderApp.Core
                 };
 
                 // Button event handlers
-                skipButton.Click += (s, e) => _notificationWindow.Close();
+                skipButton.Click += (s, e) =>
+                {
+                    // Close window first, then process the action
+                    Window windowToClose = _notificationWindow;
+                    _notificationWindow = null;
+                    windowToClose.Close();
+                };
 
                 startButton.Click += (s, e) =>
                 {
                     try
                     {
+                        // Close window first
+                        Window windowToClose = _notificationWindow;
+                        _notificationWindow = null;
+                        windowToClose.Close();
+
+                        // Then open stretch window AFTER notification is closed
                         var stretchWindow = new StretchWindow(_dbManager);
                         stretchWindow.Show();
-                        _notificationWindow.Close();
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show($"Error opening stretch window: {ex.Message}",
                             "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        _notificationWindow.Close();
                     }
                 };
 
@@ -206,13 +220,17 @@ namespace StretchReminderApp.Core
             {
                 if (_notificationTimer != null)
                 {
-                    _notificationTimer.Stop();
-                    _notificationTimer.Interval = TimeSpan.FromMinutes(intervalMinutes);
-                    _notificationTimer.Start();
-                }
+                    // Don't override test mode timer
+                    if (!_testMode)
+                    {
+                        _notificationTimer.Stop();
+                        _notificationTimer.Interval = TimeSpan.FromMinutes(intervalMinutes);
+                        _notificationTimer.Start();
 
-                _settings.NotificationIntervalMinutes = intervalMinutes;
-                _settings.Save();
+                        _settings.NotificationIntervalMinutes = intervalMinutes;
+                        _settings.Save();
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -241,8 +259,8 @@ namespace StretchReminderApp.Core
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error during cleanup: {ex.Message}",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Just log, don't show message during shutdown
+                Console.WriteLine($"Error during cleanup: {ex.Message}");
             }
         }
     }
