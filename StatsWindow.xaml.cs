@@ -32,7 +32,7 @@ namespace StretchReminderApp.UI
             int completionRate = totalRecentSessions > 0 ? (completedSessions * 100 / totalRecentSessions) : 0;
 
             // Update UI elements
-            CurrentStreakText.Text = $"{currentStreak} days";
+            CurrentStreakText.Text = currentStreak.ToString();
             CompletionRateText.Text = $"{completionRate}%";
             TotalSessionsText.Text = totalSessions.ToString();
 
@@ -65,12 +65,12 @@ namespace StretchReminderApp.UI
                 // Create border for the day
                 var dayBorder = new Border
                 {
-                    Width = 45,
-                    Height = 45,
-                    Margin = new Thickness(4),
-                    CornerRadius = new CornerRadius(5),
+                    Width = 48,
+                    Height = 48,
+                    Margin = new Thickness(5),
+                    CornerRadius = new CornerRadius(8),
                     BorderThickness = new Thickness(1),
-                    BorderBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200))
+                    BorderBrush = new SolidColorBrush(Color.FromRgb(224, 224, 224))
                 };
 
                 // Set background color based on completion status
@@ -91,6 +91,13 @@ namespace StretchReminderApp.UI
                     dayBorder.Background = new SolidColorBrush(Color.FromRgb(224, 224, 224)); // Gray for future
                 }
 
+                // Special treatment for today
+                if (date == today)
+                {
+                    dayBorder.BorderThickness = new Thickness(2);
+                    dayBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(46, 125, 50));
+                }
+
                 // Create stack panel for content
                 var panel = new StackPanel
                 {
@@ -103,6 +110,7 @@ namespace StretchReminderApp.UI
                 {
                     Text = date.Day.ToString(),
                     FontWeight = date == today ? FontWeights.Bold : FontWeights.Normal,
+                    FontSize = date == today ? 16 : 14,
                     HorizontalAlignment = HorizontalAlignment.Center
                 });
 
@@ -159,7 +167,8 @@ namespace StretchReminderApp.UI
                     FontSize = 16,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
-                    TextWrapping = TextWrapping.Wrap
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = new SolidColorBrush(Color.FromRgb(117, 117, 117))
                 };
 
                 Canvas.SetLeft(emptyText, 20);
@@ -167,6 +176,17 @@ namespace StretchReminderApp.UI
                 ChartCanvas.Children.Add(emptyText);
                 return;
             }
+
+            // Add instruction
+            var instructionText = new TextBlock
+            {
+                Text = "Weekly completion rate over the last 30 days",
+                FontSize = 12,
+                Foreground = new SolidColorBrush(Color.FromRgb(117, 117, 117))
+            };
+            Canvas.SetLeft(instructionText, 10);
+            Canvas.SetTop(instructionText, 10);
+            ChartCanvas.Children.Add(instructionText);
 
             // Get today and past dates for grouping
             var today = DateTime.Now.Date;
@@ -209,8 +229,8 @@ namespace StretchReminderApp.UI
             double canvasHeight = ChartCanvas.ActualHeight > 0 ? ChartCanvas.ActualHeight : 200;
 
             // Chart settings
-            double barMaxHeight = canvasHeight - 60; // Space for labels
-            double barWidth = 60;
+            double barMaxHeight = canvasHeight - 70; // Space for labels
+            double barWidth = 70;
             double xSpacing = canvasWidth / (weekGroups.Count + 1);
 
             // Draw axis
@@ -220,10 +240,21 @@ namespace StretchReminderApp.UI
                 Y1 = canvasHeight - 40,
                 X2 = canvasWidth - 20,
                 Y2 = canvasHeight - 40,
-                Stroke = new SolidColorBrush(Colors.Gray),
+                Stroke = new SolidColorBrush(Color.FromRgb(189, 189, 189)),
                 StrokeThickness = 1
             };
             ChartCanvas.Children.Add(axisLine);
+
+            // Draw Y-axis label
+            var yAxisLabel = new TextBlock
+            {
+                Text = "Completion %",
+                Foreground = new SolidColorBrush(Color.FromRgb(117, 117, 117)),
+                FontSize = 12
+            };
+            Canvas.SetLeft(yAxisLabel, 10);
+            Canvas.SetTop(yAxisLabel, 10);
+            ChartCanvas.Children.Add(yAxisLabel);
 
             // Draw bars for each week
             int index = 0;
@@ -246,7 +277,7 @@ namespace StretchReminderApp.UI
                 {
                     Width = barWidth,
                     Height = Math.Max(barHeight, 4), // Minimum visible height
-                    Fill = new SolidColorBrush(Color.FromRgb(46, 125, 50)),
+                    Fill = new SolidColorBrush(Color.FromRgb(76, 175, 80)),
                     RadiusX = 4,
                     RadiusY = 4
                 };
@@ -255,12 +286,35 @@ namespace StretchReminderApp.UI
                 Canvas.SetTop(bar, canvasHeight - 40 - barHeight);
                 ChartCanvas.Children.Add(bar);
 
+                // Add fancy gradient overlay for visual appeal
+                var gradient = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0),
+                    EndPoint = new Point(0, 1)
+                };
+                gradient.GradientStops.Add(new GradientStop(Color.FromArgb(80, 255, 255, 255), 0));
+                gradient.GradientStops.Add(new GradientStop(Color.FromArgb(10, 255, 255, 255), 1));
+
+                var overlay = new Rectangle
+                {
+                    Width = barWidth,
+                    Height = Math.Max(barHeight, 4),
+                    Fill = gradient,
+                    RadiusX = 4,
+                    RadiusY = 4
+                };
+
+                Canvas.SetLeft(overlay, xPos);
+                Canvas.SetTop(overlay, canvasHeight - 40 - barHeight);
+                ChartCanvas.Children.Add(overlay);
+
                 // Add percentage text
                 var percentText = new TextBlock
                 {
                     Text = $"{completionPercentage:P0}",
                     FontSize = 12,
-                    FontWeight = FontWeights.SemiBold
+                    FontWeight = FontWeights.SemiBold,
+                    Foreground = new SolidColorBrush(Color.FromRgb(46, 125, 50))
                 };
 
                 Canvas.SetLeft(percentText, xPos + barWidth / 2 - 15);
@@ -274,7 +328,8 @@ namespace StretchReminderApp.UI
                     FontSize = 10,
                     TextWrapping = TextWrapping.Wrap,
                     Width = 80,
-                    TextAlignment = TextAlignment.Center
+                    TextAlignment = TextAlignment.Center,
+                    Foreground = new SolidColorBrush(Color.FromRgb(117, 117, 117))
                 };
 
                 Canvas.SetLeft(weekLabelText, xPos + barWidth / 2 - 40);

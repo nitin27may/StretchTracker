@@ -5,67 +5,163 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StretchReminderApp"
         mc:Ignorable="d"
-        Title="Stretch Reminder App" Height="450" Width="800"
+        Title="Stretch Reminder" Height="580" Width="900"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        Background="#F5F5F5"
+        FontFamily="Segoe UI">
+    <Window.Resources>
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Width" Value="180"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#4CAF50"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="24"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2E7D32"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-        <!-- Header -->
-        <TextBlock Grid.Row="0" Text="Stretch Reminder App" 
-                   FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20"
-                   Foreground="#2E7D32"/>
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource ActionButton}">
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#BDBDBD"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
-        <!-- Main Content Area -->
-        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="Welcome to Stretch Reminder App!" 
-                       FontSize="22" HorizontalAlignment="Center"/>
-            <TextBlock Text="We'll remind you to take regular stretching breaks throughout your day."
-                       FontSize="16" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="500"/>
+    <Grid>
+        <!-- Background pattern - circles -->
+        <Canvas>
+            <Ellipse Width="300" Height="300" Fill="#E8F5E9" Opacity="0.6" Canvas.Left="-100" Canvas.Top="-100"/>
+            <Ellipse Width="200" Height="200" Fill="#E8F5E9" Opacity="0.5" Canvas.Right="-50" Canvas.Bottom="-50"/>
+            <Ellipse Width="150" Height="150" Fill="#E8F5E9" Opacity="0.4" Canvas.Right="100" Canvas.Top="50"/>
+        </Canvas>
 
-            <!-- Buttons -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
-                <Button x:Name="StretchNowButton" Content="Stretch Now" 
-                        Click="StretchNowButton_Click"
-                        Width="150" Height="40" FontSize="16"
-                        Background="#2E7D32" Foreground="White">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-                <Button x:Name="ViewStatsButton" Content="View Stats" 
-                        Click="ViewStatsButton_Click"
-                        Width="150" Height="40" FontSize="16"
-                        Background="#F0F0F0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <Button x:Name="SettingsButton" Content="Settings" 
-                        Click="SettingsButton_Click"
-                        Width="150" Height="40" FontSize="16"
-                        Background="#F0F0F0">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Ellipse Width="50" Height="50" Fill="#4CAF50" Margin="0,0,15,0"/>
+                <TextBlock Text="Stretch Reminder" 
+                           FontSize="32" FontWeight="SemiBold" 
+                           VerticalAlignment="Center"
+                           Foreground="#2E7D32"/>
             </StackPanel>
-        </StackPanel>
 
-        <!-- Footer -->
-        <TextBlock Grid.Row="2" Text="Maintain a healthy stretching routine to prevent strain injuries"
-                   FontStyle="Italic" HorizontalAlignment="Center"/>
+            <!-- Main Content Area -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Side: Text and Info -->
+                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,20,0">
+                    <TextBlock Text="Stay Active" 
+                               FontSize="36" FontWeight="Bold" 
+                               Foreground="#2E7D32"
+                               Margin="0,0,0,15"/>
+
+                    <TextBlock Text="Regular stretching can help reduce muscle tension, increase range of motion, and improve your posture."
+                               FontSize="16" TextWrapping="Wrap" 
+                               Foreground="#333333"
+                               Margin="0,0,0,20"/>
+
+                    <!-- Streaks Summary -->
+                    <Border Background="White" CornerRadius="10" 
+                            BorderBrush="#E0E0E0" BorderThickness="1"
+                            Padding="20" Margin="0,0,0,20">
+                        <StackPanel>
+                            <TextBlock Text="Your Stretching Streak" 
+                                       FontSize="18" FontWeight="SemiBold"
+                                       Margin="0,0,0,10"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock x:Name="StreakCount" Text="0" 
+                                           FontSize="48" FontWeight="Bold"
+                                           Foreground="#4CAF50"
+                                           Margin="0,0,15,0"/>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="days" FontSize="16" Foreground="#555555"/>
+                                    <TextBlock x:Name="StreakMessage" 
+                                               Text="Great job! Keep it up." 
+                                               FontSize="14" Foreground="#555555"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Right Side: Illustration and Actions -->
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <!-- Illustration Placeholder -->
+                    <Border Background="#E8F5E9" CornerRadius="10" 
+                            BorderBrush="#81C784" BorderThickness="1"
+                            Height="200" Margin="0,0,0,30">
+                        <TextBlock Text="Stretch Illustration" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"
+                                   FontSize="20" Foreground="#2E7D32"/>
+                    </Border>
+
+                    <!-- Action Buttons -->
+                    <StackPanel HorizontalAlignment="Center">
+                        <Button x:Name="StretchNowButton" Content="Stretch Now" 
+                                Style="{StaticResource ActionButton}"
+                                Click="StretchNowButton_Click"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button x:Name="ViewStatsButton" Content="View Stats" 
+                                    Style="{StaticResource SecondaryButton}"
+                                    Click="ViewStatsButton_Click"/>
+
+                            <Button x:Name="SettingsButton" Content="Settings" 
+                                    Style="{StaticResource SecondaryButton}"
+                                    Click="SettingsButton_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- Footer -->
+            <Border Grid.Row="2" Background="White" CornerRadius="10" 
+                    BorderBrush="#E0E0E0" BorderThickness="1"
+                    Padding="15" Margin="0,20,0,0">
+                <StackPanel>
+                    <TextBlock Text="Pro Tips" 
+                               FontWeight="SemiBold" 
+                               Foreground="#2E7D32"
+                               Margin="0,0,0,5"/>
+                    <TextBlock x:Name="TipText"
+                               Text="Aim for at least 5-10 minutes of stretching at a time. Focus on major muscle groups and hold each stretch for 15-30 seconds."
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

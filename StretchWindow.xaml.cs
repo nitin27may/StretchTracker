@@ -21,17 +21,17 @@ namespace StretchReminderApp.UI
         // Motion detection parameters
         private Mat _previousFrame;
         private DateTime _lastStretchDetectedTime = DateTime.MinValue;
-        private readonly TimeSpan _detectionCooldown = TimeSpan.FromSeconds(2.0); // Increased cooldown
-        private double _motionThreshold = 150000; // Higher default threshold
+        private readonly TimeSpan _detectionCooldown = TimeSpan.FromSeconds(2.0);
+        private double _motionThreshold = 150000;
         private bool _isCalibrating = true;
         private int _calibrationFrames = 0;
         private readonly int _requiredCalibrationFrames = 30;
         private double _backgroundMotion = 0;
-        private bool _isCompleting = false; // Flag to prevent multiple completion messages
+        private bool _isCompleting = false;
 
         // Additional parameters to reduce sensitivity to small movements
         private int _consecutiveMotionFrames = 0;
-        private readonly int _requiredConsecutiveFrames = 3; // Require motion in multiple consecutive frames
+        private readonly int _requiredConsecutiveFrames = 3;
 
         public StretchWindow(DatabaseManager dbManager)
         {
@@ -45,10 +45,11 @@ namespace StretchReminderApp.UI
             Closing += StretchWindow_Closing;
 
             // Set required stretches from settings
-            _settings.RequiredStretchCount = Math.Max(3, _settings.RequiredStretchCount); // Ensure minimum of 3
+            _settings.RequiredStretchCount = Math.Max(3, _settings.RequiredStretchCount);
 
             // Update UI
             StatusTextBlock.Text = "Starting camera...";
+            UpdateProgressUI(0);
         }
 
         private void StretchWindow_Loaded(object sender, RoutedEventArgs e)
@@ -70,6 +71,7 @@ namespace StretchReminderApp.UI
                 _capture.Set(VideoCaptureProperties.FrameHeight, 480);
 
                 StatusTextBlock.Text = "Camera initialized. Please remain still while calibrating...";
+                CalibrationOverlay.Visibility = Visibility.Visible;
 
                 // Start processing in a separate thread
                 _cancellationTokenSource = new CancellationTokenSource();
@@ -104,6 +106,15 @@ namespace StretchReminderApp.UI
                             var bitmap = MatToBitmapSource(frame);
                             await Dispatcher.InvokeAsync(() => WebcamPreview.Source = bitmap);
 
+                            // Update the calibration overlay visibility
+                            if (_isCalibrating && _calibrationFrames >= _requiredCalibrationFrames)
+                            {
+                                await Dispatcher.InvokeAsync(() =>
+                                {
+                                    CalibrationOverlay.Visibility = Visibility.Collapsed;
+                                });
+                            }
+
                             // Detect stretching based on motion
                             if (isStretching)
                             {
@@ -115,7 +126,7 @@ namespace StretchReminderApp.UI
 
                                     await Dispatcher.InvokeAsync(() =>
                                     {
-                                        ProgressBar.Value = (double)_stretchesDetected / _settings.RequiredStretchCount * 100;
+                                        UpdateProgressUI(_stretchesDetected);
                                         StatusTextBlock.Text = $"Stretch detected! {_stretchesDetected}/{_settings.RequiredStretchCount}";
                                     });
 
@@ -180,6 +191,19 @@ namespace StretchReminderApp.UI
                     StatusTextBlock.Text = $"Error processing frames: {ex.Message}";
                 });
             }
+        }
+
+        private void UpdateProgressUI(int currentCount)
+        {
+            // Update progress bar
+            double progressPercentage = (double)currentCount / _settings.RequiredStretchCount * 100;
+            ProgressBar.Value = progressPercentage;
+
+            // Update counter text
+            CounterText.Text = $"{currentCount}/{_settings.RequiredStretchCount}";
+
+            // Update progress text
+            ProgressText.Text = $"Stretch progress: {currentCount} of {_settings.RequiredStretchCount}";
         }
 
         private bool ProcessFrameForMotion(Mat frame)

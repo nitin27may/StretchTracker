@@ -31,7 +31,13 @@ namespace StretchReminderApp.UI
                 StretchCountSlider.Value = _settings.RequiredStretchCount;
                 ThresholdSlider.Value = _settings.PoseDetectionThreshold;
                 MotivationCheckbox.IsChecked = _settings.ShowMotivationalMessages;
-                // DebugLoggingCheckbox.IsChecked = _settings.EnableDebugLogging;
+
+                // Developer options
+                if (DebugLoggingCheckbox != null) // Check if the control exists
+                {
+                    // DebugLoggingCheckbox.IsChecked = _settings.EnableDebugLogging;
+                }
+
                 ModelPathTextBox.Text = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Models", "stretch_detection_model.pb");
 
                 _uiInitialized = true;
@@ -187,17 +193,18 @@ namespace StretchReminderApp.UI
             _settings.RequiredStretchCount = (int)StretchCountSlider.Value;
             _settings.PoseDetectionThreshold = (float)ThresholdSlider.Value;
             _settings.ShowMotivationalMessages = MotivationCheckbox.IsChecked ?? true;
-            // _settings.EnableDebugLogging = DebugLoggingCheckbox.IsChecked ?? false;
+
+            // Update components based on total minutes
+            _settings.UpdateComponentsFromTotal();
 
             // Save settings to file
             _settings.Save();
 
-            // Update notification interval in the app - be explicit about the type
+            // Update notification interval in the app
             try
             {
                 var app = (App)Application.Current;
-                int intervalMinutes = (int)IntervalSlider.Value;
-                app.NotificationManager.UpdateNotificationSchedule(intervalMinutes);
+                app.NotificationManager.UpdateNotificationSchedule();
             }
             catch (Exception ex)
             {
@@ -211,6 +218,10 @@ namespace StretchReminderApp.UI
                 AddApplicationToStartup();
             else
                 RemoveApplicationFromStartup();
+
+            // Show confirmation and close the window
+            MessageBox.Show("Settings saved successfully!",
+                "Settings Saved", MessageBoxButton.OK, MessageBoxImage.Information);
 
             // Close the window
             Close();
