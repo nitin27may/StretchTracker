@@ -13,10 +13,6 @@ namespace StretchReminderApp.Core
         private readonly AppSettings _settings;
         private Window _notificationWindow;
 
-        // For testing - override normal settings temporarily
-        private readonly bool _testMode = true;
-        private readonly int _testIntervalMinutes = 2; // 2-minute test interval
-
         public NotificationManager(DatabaseManager dbManager)
         {
             _dbManager = dbManager;
@@ -28,11 +24,10 @@ namespace StretchReminderApp.Core
             try
             {
                 // Use DispatcherTimer for WPF
-                _notificationTimer = new DispatcherTimer
-                {
-                    // Use test interval or settings value
-                    Interval = TimeSpan.FromMinutes(_testMode ? _testIntervalMinutes : _settings.NotificationIntervalMinutes)
-                };
+                _notificationTimer = new DispatcherTimer();
+
+                // Set interval based on settings (including dev mode if enabled)
+                UpdateTimerInterval();
 
                 _notificationTimer.Tick += (s, e) => ShowNotification();
                 _notificationTimer.Start();
@@ -50,12 +45,54 @@ namespace StretchReminderApp.Core
                 };
 
                 startupTimer.Start();
+
+                // Log the configured interval
+                Console.WriteLine($"Notification timer started. Interval: {GetIntervalDescription()}");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error starting notification: {ex.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void UpdateTimerInterval()
+        {
+            // Get effective interval (considering dev mode)
+            int intervalMinutes = _settings.GetEffectiveIntervalMinutes();
+
+            // Set the timer interval
+            _notificationTimer.Interval = TimeSpan.FromMinutes(intervalMinutes);
+
+            Console.WriteLine($"Timer interval updated to {intervalMinutes} minutes");
+        }
+
+        private string GetIntervalDescription()
+        {
+            if (_settings.EnableDevMode)
+            {
+                return $"{_settings.DevModeIntervalMinutes} minutes (Dev Mode)";
+            }
+
+            // Format the normal interval description
+            var parts = new System.Collections.Generic.List<string>();
+
+            if (_settings.IntervalDays > 0)
+            {
+                parts.Add($"{_settings.IntervalDays} day{(_settings.IntervalDays > 1 ? "s" : "")}");
+            }
+
+            if (_settings.IntervalHours > 0)
+            {
+                parts.Add($"{_settings.IntervalHours} hour{(_settings.IntervalHours > 1 ? "s" : "")}");
+            }
+
+            if (_settings.IntervalMinutes > 0)
+            {
+                parts.Add($"{_settings.IntervalMinutes} minute{(_settings.IntervalMinutes > 1 ? "s" : "")}");
+            }
+
+            return string.Join(", ", parts);
         }
 
         public void ShowNotification()
@@ -189,6 +226,10 @@ namespace StretchReminderApp.Core
                 // Show the window
                 _notificationWindow.Show();
 
+                // Log next reminder time
+                DateTime nextReminderTime = DateTime.Now.AddMinutes(_settings.GetEffectiveIntervalMinutes());
+                Console.WriteLine($"Notification shown. Next reminder at: {nextReminderTime:g}");
+
                 // Auto-close after 60 seconds
                 DispatcherTimer closeTimer = new DispatcherTimer
                 {
@@ -214,22 +255,29 @@ namespace StretchReminderApp.Core
             }
         }
 
-        public void UpdateNotificationSchedule(int intervalMinutes)
+        public void UpdateNotificationSchedule()
         {
             try
             {
                 if (_notificationTimer != null)
                 {
-                    // Don't override test mode timer
-                    if (!_testMode)
-                    {
-                        _notificationTimer.Stop();
-                        _notificationTimer.Interval = TimeSpan.FromMinutes(intervalMinutes);
-                        _notificationTimer.Start();
+                    // Reload settings in case they've changed
+                    AppSettings updatedSettings = AppSettings.Load();
+                    _settings.IntervalDays = updatedSettings.IntervalDays;
+                    _settings.IntervalHours = updatedSettings.IntervalHours;
+                    _settings.IntervalMinutes = updatedSettings.IntervalMinutes;
+                    _settings.EnableDevMode = updatedSettings.EnableDevMode;
+                    _settings.DevModeIntervalMinutes = updatedSettings.DevModeIntervalMinutes;
 
-                        _settings.NotificationIntervalMinutes = intervalMinutes;
-                        _settings.Save();
-                    }
+                    // Update total minutes
+                    _settings.UpdateTotalMinutes();
+
+                    // Update the timer interval
+                    _notificationTimer.Stop();
+                    UpdateTimerInterval();
+                    _notificationTimer.Start();
+
+                    Console.WriteLine($"Notification schedule updated: {GetIntervalDescription()}");
                 }
             }
             catch (Exception ex)

@@ -1,12 +1,18 @@
-﻿using System.IO;
+﻿// AppSettings.cs (Update to add days/hours/minutes)
+using System.IO;
 using System.Text.Json;
 
 namespace StretchReminderApp.Core
 {
     public class AppSettings
     {
-        // Notification settings
+        // Total reminder interval in minutes
         public int NotificationIntervalMinutes { get; set; } = 120; // Default: 2 hours
+
+        // Components for configurable interval
+        public int IntervalDays { get; set; } = 0;
+        public int IntervalHours { get; set; } = 2;
+        public int IntervalMinutes { get; set; } = 0;
 
         // Application settings
         public bool StartWithWindows { get; set; } = false;
@@ -21,6 +27,10 @@ namespace StretchReminderApp.Core
 
         // Model settings
         public float PoseDetectionThreshold { get; set; } = 0.7f;
+
+        // Development mode settings
+        public bool EnableDevMode { get; set; } = false;  // Enable shortened intervals for testing
+        public int DevModeIntervalMinutes { get; set; } = 5; // 5-minute reminder in dev mode
 
         // Path to settings file
         private static readonly string SettingsFilePath = Path.Combine(
@@ -37,7 +47,12 @@ namespace StretchReminderApp.Core
                     string json = File.ReadAllText(SettingsFilePath);
                     var settings = JsonSerializer.Deserialize<AppSettings>(json);
 
-                    return settings ?? new AppSettings();
+                    if (settings != null)
+                    {
+                        // Calculate NotificationIntervalMinutes from components if they exist
+                        settings.UpdateTotalMinutes();
+                        return settings;
+                    }
                 }
             }
             catch (Exception)
@@ -45,7 +60,10 @@ namespace StretchReminderApp.Core
                 // If loading fails, return default settings
             }
 
-            return new AppSettings();
+            // Return default settings
+            var defaultSettings = new AppSettings();
+            defaultSettings.UpdateTotalMinutes();
+            return defaultSettings;
         }
 
         public void Save()
@@ -55,6 +73,9 @@ namespace StretchReminderApp.Core
                 string directoryPath = Path.GetDirectoryName(SettingsFilePath);
                 if (!Directory.Exists(directoryPath) && directoryPath != null)
                     Directory.CreateDirectory(directoryPath);
+
+                // Ensure components are in sync with total minutes
+                UpdateComponentsFromTotal();
 
                 var options = new JsonSerializerOptions { WriteIndented = true };
                 string json = JsonSerializer.Serialize(this, options);
@@ -69,14 +90,54 @@ namespace StretchReminderApp.Core
         public void ResetToDefaults()
         {
             NotificationIntervalMinutes = 120;
+            IntervalDays = 0;
+            IntervalHours = 2;
+            IntervalMinutes = 0;
             StartWithWindows = false;
             RequiredStretchCount = 5;
             MinimumSessionDuration = 30;
             ShowMotivationalMessages = true;
             PlaySoundOnCompletion = true;
             PoseDetectionThreshold = 0.7f;
+            EnableDevMode = false;
+            DevModeIntervalMinutes = 5;
 
             Save();
+        }
+
+        // Update the total minutes based on days, hours, minutes components
+        public void UpdateTotalMinutes()
+        {
+            NotificationIntervalMinutes = (IntervalDays * 24 * 60) + (IntervalHours * 60) + IntervalMinutes;
+
+            // Ensure a minimum interval of 1 minute
+            if (NotificationIntervalMinutes < 1)
+            {
+                NotificationIntervalMinutes = 1;
+                IntervalMinutes = 1;
+            }
+        }
+
+        // Update the components based on the total minutes
+        public void UpdateComponentsFromTotal()
+        {
+            int remainingMinutes = NotificationIntervalMinutes;
+
+            // Calculate days
+            IntervalDays = remainingMinutes / (24 * 60);
+            remainingMinutes %= (24 * 60);
+
+            // Calculate hours
+            IntervalHours = remainingMinutes / 60;
+
+            // Remaining minutes
+            IntervalMinutes = remainingMinutes % 60;
+        }
+
+        // Get the effective interval (considering dev mode)
+        public int GetEffectiveIntervalMinutes()
+        {
+            return EnableDevMode ? DevModeIntervalMinutes : NotificationIntervalMinutes;
         }
     }
 }
