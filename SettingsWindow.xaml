@@ -1,0 +1,177 @@
+﻿<Window x:Class="StretchReminderApp.UI.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="500" Width="550"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Notification Settings" 
+                   FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"
+                   Foreground="#2E7D32"/>
+
+        <!-- Notification Interval -->
+        <TextBlock Grid.Row="1" Text="Reminder Interval:" 
+                   FontSize="16" Margin="0,0,0,5" FontWeight="Medium"/>
+
+        <Slider Grid.Row="2" x:Name="IntervalSlider" Minimum="15" Maximum="240"
+                TickFrequency="15" IsSnapToTickEnabled="True"
+                ValueChanged="IntervalSlider_ValueChanged" Margin="0,0,0,5"/>
+
+        <TextBlock Grid.Row="3" x:Name="IntervalTextBlock" 
+                   Margin="0,0,0,20" FontSize="14" Foreground="#555555"/>
+
+        <!-- Startup Option -->
+        <CheckBox Grid.Row="4" x:Name="StartWithWindowsCheckbox"
+                  Content="Start with Windows" Margin="0,0,0,15"
+                  FontSize="16"/>
+
+        <!-- Sound Notification -->
+        <CheckBox Grid.Row="5" x:Name="SoundNotificationCheckbox"
+                  Content="Play sound when notification appears" Margin="0,0,0,15"
+                  FontSize="16"/>
+
+        <!-- Stretching Options -->
+        <Expander Grid.Row="6" Header="Stretching Options" Margin="0,0,0,15"
+                  FontSize="16" FontWeight="Medium" Foreground="#2E7D32"
+                  Background="Transparent" BorderThickness="0"
+                  IsExpanded="False">
+            <StackPanel Margin="10,10,0,0">
+                <!-- Required stretches -->
+                <TextBlock Text="Required stretches to complete a session:" 
+                           Margin="0,0,0,5" FontSize="14"/>
+
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Slider Grid.Column="0" x:Name="StretchCountSlider" 
+                            Minimum="3" Maximum="10"
+                            TickFrequency="1" IsSnapToTickEnabled="True"
+                            Value="5" ValueChanged="StretchCountSlider_ValueChanged"/>
+
+                    <TextBlock Grid.Column="1" x:Name="StretchCountText" 
+                               Text="5 stretches" Margin="10,0,0,0"
+                               VerticalAlignment="Center"/>
+                </Grid>
+
+                <!-- Pose detection threshold -->
+                <TextBlock Text="Pose detection sensitivity:" 
+                           Margin="0,0,0,5" FontSize="14"/>
+
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Slider Grid.Column="0" x:Name="ThresholdSlider" 
+                            Minimum="0.5" Maximum="0.9"
+                            TickFrequency="0.05" IsSnapToTickEnabled="True"
+                            Value="0.7" ValueChanged="ThresholdSlider_ValueChanged"/>
+
+                    <TextBlock Grid.Column="1" x:Name="ThresholdText" 
+                               Text="Medium" Margin="10,0,0,0"
+                               VerticalAlignment="Center"/>
+                </Grid>
+
+                <!-- Motivation messages -->
+                <CheckBox x:Name="MotivationCheckbox" 
+                          Content="Show motivational messages" 
+                          IsChecked="True" Margin="0,0,0,15"/>
+            </StackPanel>
+        </Expander>
+
+        <!-- Developer Options -->
+        <Expander Grid.Row="7" Header="Developer Options" Margin="0,0,0,15"
+                  FontSize="16" FontWeight="Medium" Foreground="#2E7D32"
+                  Background="Transparent" BorderThickness="0"
+                  IsExpanded="False" VerticalAlignment="Top">
+            <StackPanel Margin="10,10,0,0">
+                <!-- Debug logging -->
+                <CheckBox x:Name="DebugLoggingCheckbox" 
+                          Content="Enable debug logging" 
+                          IsChecked="False" Margin="0,0,0,15"/>
+
+                <!-- Model path -->
+                <TextBlock Text="Model path:" Margin="0,0,0,5" FontSize="14"/>
+
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" x:Name="ModelPathTextBox"
+                             Text="Models/stretch_detection_model.pb"/>
+
+                    <Button Grid.Column="1" Content="Browse" Margin="10,0,0,0"
+                            Padding="10,0" Click="BrowseButton_Click"/>
+                </Grid>
+
+                <!-- Test notification button -->
+                <Button Content="Test Notification" HorizontalAlignment="Left"
+                        Padding="10,5" Margin="0,0,0,10"
+                        Click="TestNotificationButton_Click"/>
+            </StackPanel>
+        </Expander>
+
+        <!-- Action Buttons -->
+        <Grid Grid.Row="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Reset to Defaults Button -->
+            <Button Grid.Column="0" x:Name="ResetButton" 
+                    Content="Reset to Defaults" HorizontalAlignment="Left"
+                    Click="ResetButton_Click" Width="120" Height="35"
+                    Background="Transparent" BorderBrush="#2E7D32"
+                    Foreground="#2E7D32" BorderThickness="1">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="4"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Grid.Column="1" x:Name="CancelButton" Content="Cancel" 
+                    Width="100" Height="35" Margin="0,0,10,0"
+                    Click="CancelButton_Click" Background="#DDDDDD"
+                    Foreground="Black" BorderThickness="0">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="4"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+            <Button Grid.Column="2" x:Name="SaveButton" Content="Save" 
+                    Width="100" Height="35"
+                    Click="SaveButton_Click" Background="#2E7D32"
+                    Foreground="White" BorderThickness="0">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="4"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

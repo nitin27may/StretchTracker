@@ -1,0 +1,230 @@
+﻿using Microsoft.Win32;
+using StretchReminderApp.Core;
+using System.Windows;
+
+namespace StretchReminderApp.UI
+{
+    public partial class SettingsWindow : Window
+    {
+        private readonly AppSettings _settings;
+
+        public SettingsWindow()
+        {
+            InitializeComponent();
+
+            // Load current settings
+            _settings = AppSettings.Load();
+
+            // Initialize UI with current settings
+            IntervalSlider.Value = _settings.NotificationIntervalMinutes;
+            StartWithWindowsCheckbox.IsChecked = _settings.StartWithWindows;
+            SoundNotificationCheckbox.IsChecked = _settings.PlaySoundOnCompletion;
+            StretchCountSlider.Value = _settings.RequiredStretchCount;
+            ThresholdSlider.Value = _settings.PoseDetectionThreshold;
+            MotivationCheckbox.IsChecked = _settings.ShowMotivationalMessages;
+            // DebugLoggingCheckbox.IsChecked = _settings.EnableDebugLogging;
+            ModelPathTextBox.Text = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Models", "stretch_detection_model.pb");
+
+            // Update text displays
+            UpdateIntervalText();
+            UpdateStretchCountText();
+            UpdateThresholdText();
+        }
+
+        private void UpdateIntervalText()
+        {
+            int minutes = (int)IntervalSlider.Value;
+            if (minutes >= 60)
+            {
+                int hours = minutes / 60;
+                int remainingMinutes = minutes % 60;
+
+                if (remainingMinutes == 0)
+                    IntervalTextBlock.Text = $"Every {hours} hour{(hours > 1 ? "s" : "")}";
+                else
+                    IntervalTextBlock.Text = $"Every {hours} hour{(hours > 1 ? "s" : "")} and {remainingMinutes} minutes";
+            }
+            else
+            {
+                IntervalTextBlock.Text = $"Every {minutes} minutes";
+            }
+        }
+
+        private void UpdateStretchCountText()
+        {
+            int count = (int)StretchCountSlider.Value;
+            StretchCountText.Text = $"{count} stretches";
+        }
+
+        private void UpdateThresholdText()
+        {
+            double threshold = ThresholdSlider.Value;
+            string description;
+
+            if (threshold < 0.6)
+                description = "Low (more detections)";
+            else if (threshold < 0.75)
+                description = "Medium";
+            else
+                description = "High (fewer detections)";
+
+            ThresholdText.Text = description;
+        }
+
+        private void IntervalSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            UpdateIntervalText();
+        }
+
+        private void StretchCountSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            UpdateStretchCountText();
+        }
+
+        private void ThresholdSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            UpdateThresholdText();
+        }
+
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "TensorFlow Models (*.pb)|*.pb|All files (*.*)|*.*",
+                InitialDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Models")
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                ModelPathTextBox.Text = dialog.FileName;
+            }
+        }
+
+        private void TestNotificationButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Get app instance
+                var app = (App)Application.Current;
+
+                // Trigger a notification
+                app.NotificationManager.ShowNotification();
+
+                MessageBox.Show("Notification test sent successfully.",
+                    "Test Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to send test notification: {ex.Message}",
+                    "Test Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Confirm reset
+            MessageBoxResult result = MessageBox.Show(
+                "Are you sure you want to reset all settings to defaults?",
+                "Confirm Reset",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Reset settings
+                _settings.ResetToDefaults();
+
+                // Update UI
+                IntervalSlider.Value = _settings.NotificationIntervalMinutes;
+                StartWithWindowsCheckbox.IsChecked = _settings.StartWithWindows;
+                SoundNotificationCheckbox.IsChecked = _settings.PlaySoundOnCompletion;
+                StretchCountSlider.Value = _settings.RequiredStretchCount;
+                ThresholdSlider.Value = _settings.PoseDetectionThreshold;
+                MotivationCheckbox.IsChecked = _settings.ShowMotivationalMessages;
+                //DebugLoggingCheckbox.IsChecked = _settings.EnableDebugLogging;
+
+                UpdateIntervalText();
+                UpdateStretchCountText();
+                UpdateThresholdText();
+
+                MessageBox.Show("Settings have been reset to defaults.",
+                    "Reset Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Update settings from UI
+            _settings.NotificationIntervalMinutes = (int)IntervalSlider.Value;
+            _settings.StartWithWindows = StartWithWindowsCheckbox.IsChecked ?? false;
+            _settings.PlaySoundOnCompletion = SoundNotificationCheckbox.IsChecked ?? true;
+            _settings.RequiredStretchCount = (int)StretchCountSlider.Value;
+            _settings.PoseDetectionThreshold = (float)ThresholdSlider.Value;
+            _settings.ShowMotivationalMessages = MotivationCheckbox.IsChecked ?? true;
+            // _settings.EnableDebugLogging = DebugLoggingCheckbox.IsChecked ?? false;
+
+            // Save settings to file
+            _settings.Save();
+
+            // Update notification interval in the app
+            var app = (App)Application.Current;
+            app.NotificationManager.UpdateNotificationSchedule(_settings.NotificationIntervalMinutes);
+
+            // Update startup registry
+            if (_settings.StartWithWindows)
+                AddApplicationToStartup();
+            else
+                RemoveApplicationFromStartup();
+
+            // Close the window
+            DialogResult = true;
+            Close();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Close without saving
+            DialogResult = false;
+            Close();
+        }
+
+        private void AddApplicationToStartup()
+        {
+            try
+            {
+                using (var key = Registry.CurrentUser.OpenSubKey(
+                    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                {
+                    if (key != null)
+                    {
+                        key.SetValue("StretchReminderApp",
+                            System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to add to startup: {ex.Message}",
+                    "Startup Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void RemoveApplicationFromStartup()
+        {
+            try
+            {
+                using (var key = Registry.CurrentUser.OpenSubKey(
+                    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                {
+                    if (key != null && key.GetValue("StretchReminderApp") != null)
+                        key.DeleteValue("StretchReminderApp");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to remove from startup: {ex.Message}",
+                    "Startup Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+    }
+}
