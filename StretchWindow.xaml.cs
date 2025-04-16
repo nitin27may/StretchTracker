@@ -100,7 +100,7 @@ namespace StretchReminderApp.UI
                                 continue;
 
                             // Process frame for motion
-                            bool isStretching = ProcessFrameForMotion(frame);
+                            bool isStretching = await ProcessFrameForMotionAsync(frame);
 
                             // Convert frame to display it
                             var bitmap = MatToBitmapSource(frame);
@@ -206,7 +206,7 @@ namespace StretchReminderApp.UI
             ProgressText.Text = $"Stretch progress: {currentCount} of {_settings.RequiredStretchCount}";
         }
 
-        private bool ProcessFrameForMotion(Mat frame)
+        private async Task<bool> ProcessFrameForMotionAsync(Mat frame)
         {
             try
             {
@@ -247,22 +247,24 @@ namespace StretchReminderApp.UI
 
                             if (_calibrationFrames >= _requiredCalibrationFrames)
                             {
-                                _isCalibrating = false;
+                                _isCalibrating = false; // Mark calibration as complete
                                 _motionThreshold = Math.Max(150000, _backgroundMotion * 10); // Set threshold higher
 
-                                Dispatcher.Invoke(() =>
+                                await Dispatcher.InvokeAsync(() =>
                                 {
+                                    CalibrationOverlay.Visibility = Visibility.Collapsed; // Hide calibration overlay
                                     StatusTextBlock.Text = "Calibration complete. Make BIG stretching movements!";
                                 });
                             }
                             else
                             {
-                                Dispatcher.Invoke(() =>
+                                await Dispatcher.InvokeAsync(() =>
                                 {
                                     StatusTextBlock.Text = $"Calibrating... {_calibrationFrames}/{_requiredCalibrationFrames}";
                                 });
                             }
                         }
+
 
                         // Visualize motion for debugging
                         Cv2.PutText(frame, $"Motion: {motionAmount:F0}", new Point(10, 30),
