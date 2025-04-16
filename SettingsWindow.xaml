@@ -1,7 +1,7 @@
 ﻿<Window x:Class="StretchReminderApp.UI.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Settings" Height="550" Width="600"
+        Title="Settings" Height="620" Width="550"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5">
     <Grid Margin="20">
@@ -22,92 +22,30 @@
                    FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"
                    Foreground="#2E7D32"/>
 
-        <!-- Reminder Interval Configuration -->
-        <GroupBox Grid.Row="1" Header="Reminder Interval" Margin="0,0,0,15" Padding="10">
-            <StackPanel>
-                <!-- Days/Hours/Minutes inputs -->
-                <Grid Margin="0,10,0,5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+        <!-- Notification Interval -->
+        <TextBlock Grid.Row="1" Text="Reminder Interval:" 
+                   FontSize="16" Margin="0,0,0,5" FontWeight="Medium"/>
 
-                    <!-- Days -->
-                    <TextBlock Grid.Column="0" Text="Days:" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="1" x:Name="DaysTextBox" 
-                             VerticalAlignment="Center" TextAlignment="Center"
-                             PreviewTextInput="NumberTextBox_PreviewTextInput"
-                             TextChanged="IntervalTextBox_TextChanged"/>
+        <Slider Grid.Row="2" x:Name="IntervalSlider" Minimum="1" Maximum="240"
+        TickFrequency="5" IsSnapToTickEnabled="True"
+        ValueChanged="IntervalSlider_ValueChanged" Margin="0,0,0,5"/>
 
-                    <!-- Hours -->
-                    <TextBlock Grid.Column="3" Text="Hours:" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="4" x:Name="HoursTextBox" 
-                             VerticalAlignment="Center" TextAlignment="Center"
-                             PreviewTextInput="NumberTextBox_PreviewTextInput"
-                             TextChanged="IntervalTextBox_TextChanged"/>
+        <TextBlock Grid.Row="3" x:Name="IntervalTextBlock" 
+                   Margin="0,0,0,20" FontSize="14" Foreground="#555555"
+                   Text="Every 120 minutes"/>
 
-                    <!-- Minutes -->
-                    <TextBlock Grid.Column="6" Text="Minutes:" VerticalAlignment="Center"/>
-                    <TextBox Grid.Column="7" x:Name="MinutesTextBox" 
-                             VerticalAlignment="Center" TextAlignment="Center"
-                             PreviewTextInput="NumberTextBox_PreviewTextInput"
-                             TextChanged="IntervalTextBox_TextChanged"/>
-                </Grid>
+        <!-- Startup Option -->
+        <CheckBox Grid.Row="4" x:Name="StartWithWindowsCheckbox"
+                  Content="Start with Windows" Margin="0,0,0,15"
+                  FontSize="16"/>
 
-                <!-- Effective interval text -->
-                <TextBlock x:Name="EffectiveIntervalText" 
-                          FontWeight="SemiBold" Margin="0,10,0,0"
-                          Text="Reminder every: 2 hours"/>
-
-                <!-- Dev Mode -->
-                <Border Margin="0,10,0,0" Padding="10" Background="#F0F0F0" 
-                        BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="4">
-                    <StackPanel>
-                        <CheckBox x:Name="DevModeCheckbox" Content="Development Mode (Short Intervals)"
-                                  Checked="DevModeCheckbox_Checked" Unchecked="DevModeCheckbox_Checked"/>
-
-                        <Grid Margin="20,5,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0" Text="Minutes:" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" x:Name="DevModeMinutesTextBox" 
-                                     VerticalAlignment="Center" TextAlignment="Center" IsEnabled="False"
-                                     PreviewTextInput="NumberTextBox_PreviewTextInput"
-                                     TextChanged="DevModeMinutesTextBox_TextChanged"/>
-                        </Grid>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-        </GroupBox>
-
-        <!-- Application Settings -->
-        <GroupBox Grid.Row="2" Header="Application Settings" Margin="0,0,0,15" Padding="10">
-            <StackPanel>
-                <!-- Startup Option -->
-                <CheckBox Grid.Row="4" x:Name="StartWithWindowsCheckbox"
-                          Content="Start with Windows" Margin="0,5,0,10"
-                          FontSize="14"/>
-
-                <!-- Sound Notification -->
-                <CheckBox Grid.Row="5" x:Name="SoundNotificationCheckbox"
-                          Content="Play sound when notification appears" Margin="0,0,0,5"
-                          FontSize="14"/>
-            </StackPanel>
-        </GroupBox>
+        <!-- Sound Notification -->
+        <CheckBox Grid.Row="5" x:Name="SoundNotificationCheckbox"
+                  Content="Play sound when notification appears" Margin="0,0,0,15"
+                  FontSize="16"/>
 
         <!-- Stretching Options -->
-        <Expander Grid.Row="3" Header="Stretching Options" Margin="0,0,0,15"
+        <Expander Grid.Row="6" Header="Stretching Options" Margin="0,0,0,15"
                   FontSize="16" FontWeight="Medium" Foreground="#2E7D32"
                   Background="Transparent" BorderThickness="0"
                   IsExpanded="True">
@@ -160,11 +98,16 @@
         </Expander>
 
         <!-- Developer Options -->
-        <Expander Grid.Row="4" Header="Developer Options" Margin="0,0,0,15"
+        <Expander Grid.Row="7" Header="Developer Options" Margin="0,0,0,15"
                   FontSize="16" FontWeight="Medium" Foreground="#2E7D32"
                   Background="Transparent" BorderThickness="0"
                   IsExpanded="False" VerticalAlignment="Top">
             <StackPanel Margin="10,10,0,0">
+                <!-- Debug logging -->
+                <CheckBox x:Name="DebugLoggingCheckbox" 
+                          Content="Enable debug logging" 
+                          IsChecked="False" Margin="0,0,0,15"/>
+
                 <!-- Model path -->
                 <TextBlock Text="Model path:" Margin="0,0,0,5" FontSize="14"/>
 
@@ -189,7 +132,7 @@
         </Expander>
 
         <!-- Action Buttons -->
-        <Grid Grid.Row="8" Margin="0,15,0,0">
+        <Grid Grid.Row="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>

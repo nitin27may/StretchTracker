@@ -5,8 +5,67 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StretchReminderApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Stretch Reminder App" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Stretch Reminder App" 
+                   FontSize="24" FontWeight="SemiBold" Margin="0,0,0,20"
+                   Foreground="#2E7D32"/>
+
+        <!-- Main Content Area -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Welcome to Stretch Reminder App!" 
+                       FontSize="22" HorizontalAlignment="Center"/>
+            <TextBlock Text="We'll remind you to take regular stretching breaks throughout your day."
+                       FontSize="16" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="500"/>
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                <Button x:Name="StretchNowButton" Content="Stretch Now" 
+                        Click="StretchNowButton_Click"
+                        Width="150" Height="40" FontSize="16"
+                        Background="#2E7D32" Foreground="White">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button x:Name="ViewStatsButton" Content="View Stats" 
+                        Click="ViewStatsButton_Click"
+                        Width="150" Height="40" FontSize="16"
+                        Background="#F0F0F0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button x:Name="SettingsButton" Content="Settings" 
+                        Click="SettingsButton_Click"
+                        Width="150" Height="40" FontSize="16"
+                        Background="#F0F0F0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Footer -->
+        <TextBlock Grid.Row="2" Text="Maintain a healthy stretching routine to prevent strain injuries"
+                   FontStyle="Italic" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

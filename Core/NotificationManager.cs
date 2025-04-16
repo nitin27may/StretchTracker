@@ -12,6 +12,8 @@ namespace StretchReminderApp.Core
         private readonly DatabaseManager _dbManager;
         private readonly AppSettings _settings;
         private Window _notificationWindow;
+        private readonly bool _testMode = true;
+        private readonly int _testIntervalMinutes = 2; // 2-minute test interval
 
         public NotificationManager(DatabaseManager dbManager)
         {
@@ -278,6 +280,30 @@ namespace StretchReminderApp.Core
                     _notificationTimer.Start();
 
                     Console.WriteLine($"Notification schedule updated: {GetIntervalDescription()}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating schedule: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        public void UpdateNotificationSchedule(int intervalMinutes)
+        {
+            try
+            {
+                if (_notificationTimer != null)
+                {
+                    // Don't override test mode timer
+                    if (!_testMode)
+                    {
+                        _notificationTimer.Stop();
+                        _notificationTimer.Interval = TimeSpan.FromMinutes(intervalMinutes);
+                        _notificationTimer.Start();
+
+                        _settings.NotificationIntervalMinutes = intervalMinutes;
+                        _settings.Save();
+                    }
                 }
             }
             catch (Exception ex)
