@@ -18,7 +18,7 @@ This guide will help you set up and start using the Stretch Reminder App.
 
 ## Installation
 
-1. Download the latest release from the [GitHub releases page](https://github.com/nitint27may/StretchReminderApp/releases)
+1. Download the latest release from the [GitHub releases page](https://github.com/nitin27may/StretchReminderApp/releases)
 2. Run the installer and follow the on-screen instructions
 3. Launch the app from the Start menu or desktop shortcut
 
@@ -82,4 +82,4 @@ If you encounter issues with the app, try these steps:
 1. **Webcam not working**: Ensure no other applications are using your webcam
 2. **Detection problems**: Try adjusting the detection sensitivity in Settings
 3. **App not starting**: Verify you have the required .NET Runtime installed
-4. **Other issues**: Check the [GitHub issues page](https://github.com/nitint27may/StretchReminderApp/issues) or submit a new issue
+4. **Other issues**: Check the [GitHub issues page](https://github.com/nitin27may/StretchReminderApp/issues) or submit a new issue

@@ -10,7 +10,7 @@ color_scheme: light
 # Aux links for the upper right navigation
 aux_links:
   "View on GitHub":
-    - "//github.com/nitint27may/StretchReminderApp"
+    - "//github.com/nitin27may/StretchReminderApp"
 
 # Enable or disable the site search
 search_enabled: true

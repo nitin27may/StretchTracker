@@ -71,12 +71,12 @@ private async Task<bool> ProcessFrameWithTensorFlowAsync(Mat frame)
 
 ## Documentation
 
-For complete documentation, please visit our [GitHub Pages site](https://nitint27may.github.io/StretchReminderApp/).
+For complete documentation, please visit our [GitHub Pages site](https://nitin27may.github.io/StretchReminderApp/).
 
-- [Getting Started](https://nitint27may.github.io/StretchReminderApp/getting-started)
-- [Features](https://nitint27may.github.io/StretchReminderApp/features)
-- [Technical Details](https://nitint27may.github.io/StretchReminderApp/technical-details)
-- [Developer Guide](https://nitint27may.github.io/StretchReminderApp/developers)
+- [Getting Started](https://nitin27may.github.io/StretchReminderApp/getting-started)
+- [Features](https://nitin27may.github.io/StretchReminderApp/features)
+- [Technical Details](https://nitin27may.github.io/StretchReminderApp/technical-details)
+- [Developer Guide](https://nitin27may.github.io/StretchReminderApp/developers)
 
 ### GitHub Pages Deployment
 
@@ -84,7 +84,7 @@ Documentation is automatically deployed to GitHub Pages using GitHub Actions whe
 
 1. Builds the Jekyll site using the just-the-docs theme
 2. Deploys the built site to GitHub Pages
-3. Makes the documentation available at https://nitint27may.github.io/StretchReminderApp/
+3. Makes the documentation available at https://nitin27may.github.io/StretchReminderApp/
 
 To modify the documentation:
 1. Update files in the `docs/` directory
@@ -117,7 +117,7 @@ To modify the documentation:
 
 ## Contributing
 
-We welcome contributions! Please feel free to submit pull requests with new features or bug fixes. See our [Developer Guide](https://nitint27may.github.io/StretchReminderApp/developers) for more information.
+We welcome contributions! Please feel free to submit pull requests with new features or bug fixes. See our [Developer Guide](https://nitin27may.github.io/StretchReminderApp/developers) for more information.
 
 ## License
 

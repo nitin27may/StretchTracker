@@ -69,4 +69,4 @@ We're enhancing our detection capabilities with **TensorFlow.NET** for advanced 
 - **System Tray Integration**: Runs in the background with system tray access
 
 [Get Started](getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[View on GitHub](https://github.com/nitint27may/StretchReminderApp){: .btn .fs-5 .mb-4 .mb-md-0 }
+[View on GitHub](https://github.com/nitin27may/StretchReminderApp){: .btn .fs-5 .mb-4 .mb-md-0 }
