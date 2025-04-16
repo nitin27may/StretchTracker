@@ -1,0 +1,22 @@
+title: Stretch Reminder App
+description: A desktop application that reminds users to take regular stretching breaks
+baseurl: "/StretchReminderApp"
+url: ""
+
+# Theme settings
+theme: just-the-docs
+color_scheme: light
+
+# Aux links for the upper right navigation
+aux_links:
+  "View on GitHub":
+    - "//github.com/nitint27may/StretchReminderApp"
+
+# Enable or disable the site search
+search_enabled: true
+
+# Set a path/url to a favicon
+favicon_ico: "/assets/images/favicon.ico"
+
+# Footer content
+footer_content: "Copyright &copy; 2025 Stretch Reminder App. Distributed under the MIT license."
