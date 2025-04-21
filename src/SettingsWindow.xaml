@@ -1,4 +1,4 @@
-﻿<Window x:Class="StretchReminderApp.UI.SettingsWindow"
+﻿<Window x:Class="StretchTracker.UI.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Settings" Height="650" Width="600"

@@ -1,10 +1,10 @@
-﻿using StretchReminderApp.UI;
+﻿using StretchTracker.UI;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace StretchReminderApp.Core
+namespace StretchTracker.Core
 {
     public class NotificationManager
     {

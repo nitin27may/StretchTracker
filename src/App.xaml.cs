@@ -1,10 +1,10 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
-using StretchReminderApp.Core;
-using StretchReminderApp.UI;
+using StretchTracker.Core;
+using StretchTracker.UI;
 using System.Drawing;
 using System.Windows;
 
-namespace StretchReminderApp
+namespace StretchTracker
 {
     public partial class App : Application
     {

@@ -1,5 +1,5 @@
 ﻿using OpenCvSharp;
-using StretchReminderApp.Core;
+using StretchTracker.Core;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 using Point = OpenCvSharp.Point;
 using Size = OpenCvSharp.Size;
 
-namespace StretchReminderApp.UI
+namespace StretchTracker.UI
 {
     public partial class StretchWindow : System.Windows.Window
     {

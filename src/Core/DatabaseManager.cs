@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.IO;
 
-namespace StretchReminderApp.Core
+namespace StretchTracker.Core
 {
     public class DatabaseManager
     {
@@ -13,7 +13,7 @@ namespace StretchReminderApp.Core
             // Create database in AppData folder
             string appDataPath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "StretchReminderApp");
+                "StretchTracker");
 
             if (!Directory.Exists(appDataPath))
                 Directory.CreateDirectory(appDataPath);

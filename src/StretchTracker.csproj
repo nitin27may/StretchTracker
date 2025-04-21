@@ -29,4 +29,10 @@
     <PackageReference Include="TensorFlow.NET" Version="0.150.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="resources\stretch_icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

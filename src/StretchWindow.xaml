@@ -1,4 +1,4 @@
-﻿<Window x:Class="StretchReminderApp.UI.StretchWindow"
+﻿<Window x:Class="StretchTracker.UI.StretchWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Time to Stretch!" Height="650" Width="900"

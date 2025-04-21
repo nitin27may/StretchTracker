@@ -1,8 +1,8 @@
 ﻿using Microsoft.Win32;
-using StretchReminderApp.Core;
+using StretchTracker.Core;
 using System.Windows;
 
-namespace StretchReminderApp.UI
+namespace StretchTracker.UI
 {
     public partial class SettingsWindow : Window
     {
@@ -246,7 +246,7 @@ namespace StretchReminderApp.UI
                 {
                     if (key != null)
                     {
-                        key.SetValue("StretchReminderApp",
+                        key.SetValue("StretchTracker",
                             System.Reflection.Assembly.GetExecutingAssembly().Location);
                     }
                 }
@@ -265,8 +265,8 @@ namespace StretchReminderApp.UI
                 using (var key = Registry.CurrentUser.OpenSubKey(
                     "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
                 {
-                    if (key != null && key.GetValue("StretchReminderApp") != null)
-                        key.DeleteValue("StretchReminderApp");
+                    if (key != null && key.GetValue("StretchTracker") != null)
+                        key.DeleteValue("StretchTracker");
                 }
             }
             catch (Exception ex)

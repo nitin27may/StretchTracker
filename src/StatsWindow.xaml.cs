@@ -1,10 +1,10 @@
-﻿using StretchReminderApp.Core;
+﻿using StretchTracker.Core;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace StretchReminderApp.UI
+namespace StretchTracker.UI
 {
     public partial class StatsWindow : Window
     {

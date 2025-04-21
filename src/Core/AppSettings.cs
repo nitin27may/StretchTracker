@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.Json;
 
-namespace StretchReminderApp.Core
+namespace StretchTracker.Core
 {
     public class AppSettings
     {
@@ -35,7 +35,7 @@ namespace StretchReminderApp.Core
         // Path to settings file
         private static readonly string SettingsFilePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "StretchReminderApp",
+            "StretchTracker",
             "settings.json");
 
         public static AppSettings Load()

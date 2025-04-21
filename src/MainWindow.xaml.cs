@@ -1,7 +1,7 @@
-﻿using StretchReminderApp.UI;
+﻿using StretchTracker.UI;
 using System.Windows;
 
-namespace StretchReminderApp
+namespace StretchTracker
 {
     public partial class MainWindow : Window
     {
