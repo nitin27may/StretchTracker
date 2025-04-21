@@ -1,17 +1,17 @@
-# Stretch Reminder App
+# Stretch Tracker App
 
 A desktop application that reminds users to take regular stretching breaks and helps them maintain good physical health while working at a computer.
 
 ## Overview
 
-Stretch Reminder App is a WPF (.NET) application that helps users prevent physical strain by providing timely reminders to stretch. The app uses computer vision (OpenCV) and machine learning (TensorFlow) to detect stretching movements through the user's webcam, tracks progress, and maintains statistics about stretching habits over time.
+Stretch Tracker App is a WPF (.NET) application that helps users prevent physical strain by providing timely Trackers to stretch. The app uses computer vision (OpenCV) and machine learning (TensorFlow) to detect stretching movements through the user's webcam, tracks progress, and maintains statistics about stretching habits over time.
 
 ![App Launch](docs/screenshots/main-window.png)
 ![Stretch Detection](docs/screenshots/stretchdetectionandprogress.png)
 
 ## Features
 
-- **Customizable Reminder Intervals**: Set reminders from minutes to hours based on your needs
+- **Customizable Tracker Intervals**: Set Trackers from minutes to hours based on your needs
 - **Computer Vision Detection**: Uses webcam and motion detection to verify stretching movements
 - **Machine Learning Integration**: TensorFlow.NET for advanced pose detection capabilities
 - **Progress Tracking**: Records and displays stretching streaks and completion rates
@@ -71,12 +71,12 @@ private async Task<bool> ProcessFrameWithTensorFlowAsync(Mat frame)
 
 ## Documentation
 
-For complete documentation, please visit our [GitHub Pages site](https://nitin27may.github.io/StretchReminderApp/).
+For complete documentation, please visit our [GitHub Pages site](https://nitin27may.github.io/StretchTrackerApp/).
 
-- [Getting Started](https://nitin27may.github.io/StretchReminderApp/getting-started)
-- [Features](https://nitin27may.github.io/StretchReminderApp/features)
-- [Technical Details](https://nitin27may.github.io/StretchReminderApp/technical-details)
-- [Developer Guide](https://nitin27may.github.io/StretchReminderApp/developers)
+- [Getting Started](https://nitin27may.github.io/StretchTrackerApp/getting-started)
+- [Features](https://nitin27may.github.io/StretchTrackerApp/features)
+- [Technical Details](https://nitin27may.github.io/StretchTrackerApp/technical-details)
+- [Developer Guide](https://nitin27may.github.io/StretchTrackerApp/developers)
 
 ### GitHub Pages Deployment
 
@@ -84,7 +84,7 @@ Documentation is automatically deployed to GitHub Pages using GitHub Actions whe
 
 1. Builds the Jekyll site using the just-the-docs theme
 2. Deploys the built site to GitHub Pages
-3. Makes the documentation available at https://nitin27may.github.io/StretchReminderApp/
+3. Makes the documentation available at https://nitin27may.github.io/StretchTrackerApp/
 
 To modify the documentation:
 1. Update files in the `docs/` directory
@@ -111,13 +111,13 @@ To modify the documentation:
 ### Setup
 
 1. Clone the repository
-2. Open `StretchReminderApp.sln` in Visual Studio
+2. Open `StretchTrackerApp.sln` in Visual Studio
 3. Restore NuGet packages
 4. Build the solution
 
 ## Contributing
 
-We welcome contributions! Please feel free to submit pull requests with new features or bug fixes. See our [Developer Guide](https://nitin27may.github.io/StretchReminderApp/developers) for more information.
+We welcome contributions! Please feel free to submit pull requests with new features or bug fixes. See our [Developer Guide](https://nitin27may.github.io/StretchTrackerApp/developers) for more information.
 
 ## License
 

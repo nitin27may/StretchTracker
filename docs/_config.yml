@@ -1,16 +1,17 @@
-title: Stretch Reminder App
+title: Stretch Tracker App
 description: A desktop application that reminds users to take regular stretching breaks
-baseurl: "/StretchReminderApp"
+baseurl: "/StretchTracker"
 url: ""
 
 # Theme settings
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs
+# theme: just-the-docs  # This line is commented out as we're using remote_theme instead
 color_scheme: light
 
 # Aux links for the upper right navigation
 aux_links:
   "View on GitHub":
-    - "//github.com/nitin27may/StretchReminderApp"
+    - "//github.com/nitin27may/StretchTracker"
 
 # Enable or disable the site search
 search_enabled: true
@@ -19,4 +20,4 @@ search_enabled: true
 favicon_ico: "/assets/images/favicon.ico"
 
 # Footer content
-footer_content: "Copyright &copy; 2025 Stretch Reminder App. Distributed under the MIT license."
+footer_content: "Copyright &copy; 2025 Stretch Tracker App. Distributed under the MIT license."
