@@ -71,6 +71,12 @@
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
+    <Content Include="Square44x44Logo.scale-100.png" />
+    <Content Include="Square44x44Logo.targetsize-48.png" />
+    <Content Include="STRETCH TRACKER %281240 x 600 px%29.scale-100.png" />
+    <Content Include="STRETCH TRACKER %281240 x 600 px%29.scale-200.png" />
+    <Content Include="STRETCH TRACKER%2844 x 44 px%29.scale-100.png" />
+    <Content Include="STRETCH TRACKER%2844 x 44 px%29.targetsize-48.png" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
