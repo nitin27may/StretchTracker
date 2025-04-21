@@ -82,8 +82,8 @@ namespace StretchTracker
                     if (notifyIcon != null)
                     {
                         notifyIcon.ShowBalloonTip(
-                            "Stretch Reminder",
-                            "The app is still running in the system tray. You'll receive stretch reminders as scheduled.",
+                            "Stretch Tracker",
+                            "The app is still running in the system tray. You'll receive Stretch Trackers as scheduled.",
                             Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
                     }
                 }

@@ -7,7 +7,7 @@
         <ResourceDictionary>
             <!-- Alternative approach without direct icon reference to avoid parsing issues -->
             <tb:TaskbarIcon x:Key="NotifyIcon"
-                            ToolTipText="Stretch Reminder">
+                            ToolTipText="Stretch Tracker">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Open" Click="ShowMenuItem_Click"/>

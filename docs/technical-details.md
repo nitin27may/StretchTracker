@@ -9,11 +9,11 @@ nav_order: 4
 {: .note-title }
 > AI-Powered Movement Detection
 >
-> The Stretch Reminder App leverages cutting-edge Computer Vision and Machine Learning technologies to provide accurate stretching detection. This combination allows the app to effectively distinguish between genuine stretching movements and regular activity.
+> The Stretch Tracker App leverages cutting-edge Computer Vision and Machine Learning technologies to provide accurate stretching detection. This combination allows the app to effectively distinguish between genuine stretching movements and regular activity.
 
 ## Motion Detection System
 
-The Stretch Reminder App uses a sophisticated combination of OpenCV for basic motion detection and TensorFlow.NET for advanced pose detection capabilities.
+The Stretch Tracker App uses a sophisticated combination of OpenCV for basic motion detection and TensorFlow.NET for advanced pose detection capabilities.
 
 ![Stretch Detection](screenshots/stretchdetectionandprogress.png)
 

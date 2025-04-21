@@ -6,7 +6,7 @@ nav_order: 3
 
 # Getting Started
 
-This guide will help you set up and start using the Stretch Reminder App.
+This guide will help you set up and start using the Stretch Tracker App.
 
 ## System Requirements
 
@@ -18,7 +18,7 @@ This guide will help you set up and start using the Stretch Reminder App.
 
 ## Installation
 
-1. Download the latest release from the [GitHub releases page](https://github.com/nitin27may/StretchReminderApp/releases)
+1. Download the latest release from the [GitHub releases page](https://github.com/nitin27may/StretchTracker/releases)
 2. Run the installer and follow the on-screen instructions
 3. Launch the app from the Start menu or desktop shortcut
 
@@ -45,7 +45,7 @@ When you first launch the app, you'll be guided through a brief setup process:
 {: .highlight }
 > **How It Works**
 >
-> The Stretch Reminder App uses advanced computer vision and machine learning to verify your stretching movements. When it's time to stretch, the app will analyze your movements through the webcam, using:
+> The Stretch Tracker App uses advanced computer vision and machine learning to verify your stretching movements. When it's time to stretch, the app will analyze your movements through the webcam, using:
 >
 > 1. **Computer vision algorithms** to detect motion patterns
 > 2. **Machine learning models** to recognize specific stretching poses
@@ -82,4 +82,4 @@ If you encounter issues with the app, try these steps:
 1. **Webcam not working**: Ensure no other applications are using your webcam
 2. **Detection problems**: Try adjusting the detection sensitivity in Settings
 3. **App not starting**: Verify you have the required .NET Runtime installed
-4. **Other issues**: Check the [GitHub issues page](https://github.com/nitin27may/StretchReminderApp/issues) or submit a new issue
+4. **Other issues**: Check the [GitHub issues page](https://github.com/nitin27may/StretchTracker/issues) or submit a new issue

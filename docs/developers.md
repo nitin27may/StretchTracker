@@ -6,7 +6,7 @@ nav_order: 5
 
 # Developer Guide
 
-This section provides technical information for developers interested in understanding or contributing to the Stretch Reminder App.
+This section provides technical information for developers interested in understanding or contributing to the Stretch Tracker App.
 
 ## Project Structure
 

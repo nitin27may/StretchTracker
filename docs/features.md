@@ -6,7 +6,7 @@ nav_order: 2
 
 # Features & Interface
 
-Stretch Reminder App provides a clean, intuitive interface designed to help you maintain healthy stretching habits with minimal disruption to your workflow.
+Stretch Tracker App provides a clean, intuitive interface designed to help you maintain healthy stretching habits with minimal disruption to your workflow.
 
 ## Main Window
 
@@ -81,7 +81,7 @@ Our AI-powered detection system includes:
 
 The statistics dashboard helps you track your stretching habits over time:
 
-- **Completion rates**: See what percentage of stretch reminders you complete
+- **Completion rates**: See what percentage of Stretch Trackers you complete
 - **Streaks**: Track your longest streak of consecutive completed stretches
 - **Daily and weekly trends**: Identify patterns in your stretching habits
 - **Session duration**: Monitor how long your stretching sessions typically last

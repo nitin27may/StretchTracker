@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StretchTracker"
         mc:Ignorable="d"
-        Title="Stretch Reminder" Height="580" Width="900"
+        Title="Stretch Tracker" Height="580" Width="900"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5"
         FontFamily="Segoe UI">
@@ -61,7 +61,7 @@
             <!-- Header -->
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <Ellipse Width="50" Height="50" Fill="#4CAF50" Margin="0,0,15,0"/>
-                <TextBlock Text="Stretch Reminder" 
+                <TextBlock Text="Stretch Tracker" 
                            FontSize="32" FontWeight="SemiBold" 
                            VerticalAlignment="Center"
                            Foreground="#2E7D32"/>

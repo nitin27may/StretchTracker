@@ -5,7 +5,7 @@ nav_order: 1
 permalink: /
 ---
 
-# Stretch Reminder App
+# Stretch Tracker App
 
 A desktop application that reminds users to take regular stretching breaks and helps them maintain good physical health while working at a computer.
 
@@ -13,14 +13,14 @@ A desktop application that reminds users to take regular stretching breaks and h
 
 ## Overview
 
-Stretch Reminder App is a WPF (.NET) application that helps users prevent physical strain by providing timely reminders to stretch. The app uses computer vision and machine learning to detect stretching movements through the user's webcam, tracks progress, and maintains statistics about stretching habits over time.
+Stretch Tracker App is a WPF (.NET) application that helps users prevent physical strain by providing timely reminders to stretch. The app uses computer vision and machine learning to detect stretching movements through the user's webcam, tracks progress, and maintains statistics about stretching habits over time.
 
 ## AI-Powered Movement Detection
 
 {: .important-title }
 > Advanced Computer Vision & Machine Learning
 >
-> What makes the Stretch Reminder App truly unique is its intelligent movement detection system. Using a powerful combination of computer vision and machine learning algorithms, the app can accurately verify when you're performing stretches.
+> What makes the Stretch Tracker App truly unique is its intelligent movement detection system. Using a powerful combination of computer vision and machine learning algorithms, the app can accurately verify when you're performing stretches.
 
 The application uses two complementary technologies for movement detection:
 
@@ -69,4 +69,4 @@ We're enhancing our detection capabilities with **TensorFlow.NET** for advanced 
 - **System Tray Integration**: Runs in the background with system tray access
 
 [Get Started](getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[View on GitHub](https://github.com/nitin27may/StretchReminderApp){: .btn .fs-5 .mb-4 .mb-md-0 }
+[View on GitHub](https://github.com/nitin27may/StretchTracke){: .btn .fs-5 .mb-4 .mb-md-0 }
