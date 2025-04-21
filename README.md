@@ -71,12 +71,12 @@ private async Task<bool> ProcessFrameWithTensorFlowAsync(Mat frame)
 
 ## Documentation
 
-For complete documentation, please visit our [GitHub Pages site](https://nitin27may.github.io/StretchTrackerApp/).
+For complete documentation, please visit our [GitHub Pages site](https://nitin27may.github.io/StretchTracker/).
 
-- [Getting Started](https://nitin27may.github.io/StretchTrackerApp/getting-started)
-- [Features](https://nitin27may.github.io/StretchTrackerApp/features)
-- [Technical Details](https://nitin27may.github.io/StretchTrackerApp/technical-details)
-- [Developer Guide](https://nitin27may.github.io/StretchTrackerApp/developers)
+- [Getting Started](https://nitin27may.github.io/StretchTracker/getting-started)
+- [Features](https://nitin27may.github.io/StretchTracker/features)
+- [Technical Details](https://nitin27may.github.io/StretchTracker/technical-details)
+- [Developer Guide](https://nitin27may.github.io/StretchTracker/developers)
 
 ### GitHub Pages Deployment
 
@@ -84,7 +84,7 @@ Documentation is automatically deployed to GitHub Pages using GitHub Actions whe
 
 1. Builds the Jekyll site using the just-the-docs theme
 2. Deploys the built site to GitHub Pages
-3. Makes the documentation available at https://nitin27may.github.io/StretchTrackerApp/
+3. Makes the documentation available at https://nitin27may.github.io/StretchTracker/
 
 To modify the documentation:
 1. Update files in the `docs/` directory
@@ -117,7 +117,7 @@ To modify the documentation:
 
 ## Contributing
 
-We welcome contributions! Please feel free to submit pull requests with new features or bug fixes. See our [Developer Guide](https://nitin27may.github.io/StretchTrackerApp/developers) for more information.
+We welcome contributions! Please feel free to submit pull requests with new features or bug fixes. See our [Developer Guide](https://nitin27may.github.io/StretchTracker/developers) for more information.
 
 ## License
 
